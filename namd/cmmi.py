@@ -74,6 +74,18 @@ def calulateCM(molecule):   # [[name, x, y, z, mass]]
     
     return cenMass, totMass
 
+def calculateMI(molecule, cenMass):   # [[name, x, y, z, mass]]
+    angMass = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    for atom in molecule:
+        x = [atom[1] - cenMass[0], atom[2] - cenMass[1], atom[3] - cenMass[2]]
+        for i in range(3):
+            for j in range(3):
+                delta = 1 if i == j else 0
+                r2 = x[0] ** 2 + x[1] ** 2 + x[2] ** 2
+                angMass[i][j] = atom[4] * (r2 * delta - x[i] * x[j])
+
+    return angMass
+
 #############################################
 
 def printList(List):
@@ -95,7 +107,7 @@ def printMole(molecule, limit=-1):    # [[name, x, y, z, mass]]
         print(f'{atom[0]}\t{atom[4]}\t\t{atom[1:4]}')
         limit -= 1
         if not limit: break
-    print(f'length: {len(molecule)} atoms')
+    print(f'molecule: {len(molecule)} atoms')
 
 def printMiss(missing, limit=-1):     # [[name, x, y, z, index]]
     ''' print the missing atoms in a molecule '''
@@ -112,6 +124,14 @@ def printCM(cenMass, totMass=0, precision=4):
     form = f'.{precision}f'
     print(f'center of mass: [{cenMass[0]:{form}}, {cenMass[1]:{form}}, {cenMass[2]:{form}}]')
     if totMass: print(f'molecular mass: {totMass:{form}}')
+
+def printMI(angMass, precision=4):
+    form = f'>10.{precision}f'
+    print(f'moment of inertia:')
+    for row in angMass:
+        for col in row:
+            print(f'{col:{form}}', end='')
+        print()
 
 #############################################
 
@@ -145,13 +165,37 @@ def testCM():
     mass = readTOPs('./topology/')
     molecule, missing = createMole(coor, mass)
     cenMass, totMass = calulateCM(molecule)
-
     printCM(cenMass, totMass)
+
+def testMI():
+    coor = readPDB('./pdb/receptor5_Pemirolast.pdb')
+    mass = readTOPs('./topology/')
+    molecule, missing = createMole(coor, mass)
+    cenMass, totMass = calulateCM(molecule)
+    angMass = calculateMI(molecule, cenMass)
+    printMI(angMass)
 
 #############################################
 
+def main(pfile='./pdb/receptor5_Pemirolast.pdb', tdir='./topology/'):
+    coor = readPDB(pfile)
+    mass = readTOPs(tdir)
+    molecule, missing = createMole(coor, mass)
+
+    cenMass, totMass = calulateCM(molecule)
+    printCM(cenMass, totMass)
+
+    angMass = calculateMI(molecule, cenMass)
+    printMI(angMass)
+
 if __name__ == "__main__":
-    testTOP()
-    testPDB()
-    testMole()
-    testCM()
+    # import sys, os
+    # if len(sys.argv) == 1:
+    #     main()
+    # elif len(sys.argv) == 2:
+    #     main(sys.argv[1])
+    # else:
+    #     main(sys.argv[1], sys.argv[2])
+    print()
+    testMI()
+    print()
