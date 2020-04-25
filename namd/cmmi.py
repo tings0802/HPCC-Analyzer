@@ -184,18 +184,15 @@ def main(pfile='./pdb/receptor5_Pemirolast.pdb', tdir='./topology/'):
 
     cenMass, totMass = calulateCM(molecule)
     printCM(cenMass, totMass)
-
+    
     angMass = calculateMI(molecule, cenMass)
     printMI(angMass)
 
 if __name__ == "__main__":
-    # import sys, os
-    # if len(sys.argv) == 1:
-    #     main()
-    # elif len(sys.argv) == 2:
-    #     main(sys.argv[1])
-    # else:
-    #     main(sys.argv[1], sys.argv[2])
-    print()
-    testMI()
-    print()
+    import sys, os
+    if len(sys.argv) == 1:
+        main()
+    elif len(sys.argv) == 2:
+        main(sys.argv[1])
+    else:
+        main(sys.argv[1], sys.argv[2])
