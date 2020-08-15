@@ -8,7 +8,7 @@ def readPDB(pfile):
     for row in rawData:
         data = row.split()
         if data[0] == 'ATOM':
-            atomicCoor.append([row[13], float(data[6]), float(data[7]), float(data[8])])
+            atomicCoor.append([data[-1], float(data[6]), float(data[7]), float(data[8])])
     
     return atomicCoor
 
