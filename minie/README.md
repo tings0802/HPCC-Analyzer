@@ -1,6 +1,4 @@
-###### tags: `HPCAI`  
 # PyAnalyzer MiniE  
-> version: 1.0  
 
 A Python-based LAMMPS log file parser and visualizer used to show the energy minimizing process of a molecular simulation  
 
