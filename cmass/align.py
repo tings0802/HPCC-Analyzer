@@ -22,14 +22,14 @@ def alignCM(atomicCoor, cenMass):
 	return molecule_aligned
 
 def combine(words): #list
-	row = f'{words[0]:7s}{words[1]:6s}{words[2]:4s}{words[3]:4s}{words[4]:2s}{words[5]:8s}{words[6]:9s}{words[7]:7s}{words[8]:9s}{words[9]:5s}{words[10]:16s}{words[11]:3s}\n'
+	row = f'{words[0]}{words[1]:>7s}  {words[2]:3s}{words[3]:>4s}{words[4]:>2s}{words[5]:>4s}{words[6]:>12s}{words[7]:>8s}{words[8]:>8s}{words[9]:>6s}{words[10]:>6s}{words[11]:>12s}  \n'
 	return row #string
 
 
 def copyfile(fileA, fileB):
-	with open(fileA, 'r') as ifile:
+	with open(fileA, 'r', encoding="utf-8") as ifile:
 		data = ifile.readlines()
-	with open(fileB, 'w') as ofile:
+	with open(fileB, 'w', encoding="utf-8") as ofile:
 		ofile.writelines(data)
 
 def main():
@@ -46,8 +46,8 @@ def main():
 	
 	data = alignCM(atomicCoor, cenMass)
 	counter = 0
-	with open(originPDB,'r') as fileA:
-		with open(alignedPDB, 'a+') as fileB:
+	with open(originPDB,'r', encoding="utf-8") as fileA:
+		with open(alignedPDB, 'a+', encoding="utf-8") as fileB:
 			for row in fileA:
 				words = row.split()
 				if words[0] == 'ATOM':
