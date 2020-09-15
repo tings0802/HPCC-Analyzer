@@ -2,13 +2,13 @@ def readPDB(pfile):
     ''' read a pdb file and return coordinates of atoms (2D list) '''
     atomicCoor = []     # [[name, x, y, z]]
 
-    with open(pfile, 'r') as ifile:
+    with open(pfile, 'r', encoding="utf-8") as ifile:
         rawData = ifile.readlines()
     
     for row in rawData:
         data = row.split()
         if data[0] == 'ATOM':
-            atomicCoor.append([row[13], float(data[6]), float(data[7]), float(data[8])])
+            atomicCoor.append([data[-1], float(data[6]), float(data[7]), float(data[8])])
     
     return atomicCoor
 
@@ -16,7 +16,7 @@ def readTOP(tfile):
     ''' read a topology file and return atomic masses (dict) '''
     atomicMass = {}     # {name: mass}
  
-    with open(tfile, 'r') as ifile:
+    with open(tfile, 'r', encoding="utf-8") as ifile:
         rawData = ifile.readlines()
 
     for row in rawData:
